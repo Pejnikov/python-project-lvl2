@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Your Name <you@example.com>"]
 packages = [
-  { include = "difference_calculator" },
+  { include = "gendiff" },
 ]
 
 [tool.poetry.dependencies]
@@ -14,7 +14,7 @@ argparse = "^1.4.0"
 [tool.poetry.dev-dependencies]
 
 [tool.poetry.scripts]
-gendiff = "difference_calculator.scripts.gendiff:main"
+gendiff = "gendiff.scripts.gendiff:main"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
