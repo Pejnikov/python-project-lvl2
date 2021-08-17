@@ -12,6 +12,7 @@ python = "^3.7"
 argparse = "^1.4.0"
 
 [tool.poetry.dev-dependencies]
+flake8 = "^3.9.2"
 
 [tool.poetry.scripts]
 gendiff = "gendiff.scripts.gendiff:main"

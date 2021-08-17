@@ -4,6 +4,7 @@ dist/
 *.pyc
 .venv/
 .coverage
+.json
 .vscode/
 coverage.xml
 .pytest_cache/
