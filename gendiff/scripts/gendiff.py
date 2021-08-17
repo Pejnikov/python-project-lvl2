@@ -6,21 +6,28 @@ from string import Template
 def generate_diff(filepath1, filepath2):
     file1 = get_file(filepath1)
     file2 = get_file(filepath2)
-    keys = sorted(set(file1) | set(file2))
+    not_in_file1 = set(file2) - set(file1)
+    not_in_file2 = set(file1) - set(file2)
+    intersection = set(file1) & set(file2)
+    result = []
+    for item in not_in_file1:
+        result.append(('+', item, file2[item]))
+    for item in not_in_file2:
+        result.append(('-', item, file1[item]))
+    for item in intersection:
+        if file1[item] == file2[item]:
+            result.append((' ', item, file1[item]))
+            continue
+        result.append(('-', item, file1[item]))
+        result.append(('+', item, file2[item]))
+    return get_string_result(sorted(result, key=lambda keyq: keyq[1]))
+
+
+def get_string_result(items):
     result = '{\n'
-    temp = Template('  $flag $key $value\n')
-    for key in keys:
-        if key in file1 and key in file2:
-            if file1[key] == file2[key]:
-                result += temp.substitute(flag=' ', key=key, value=file1[key])
-                continue
-            result += temp.substitute(flag='-', key=key, value=file1[key])
-            result += temp.substitute(flag='+', key=key, value=file2[key])
-            continue
-        if key in file1:
-            result += temp.substitute(flag='-', key=key, value=file1[key])
-            continue
-        result += temp.substitute(flag='+', key=key, value=file2[key])
+    temp = Template('  $flag $key: $value\n')
+    for item in items:
+        result += temp.substitute(flag=item[0], key=item[1], value=item[2])
     result += '}'
     return result
 
