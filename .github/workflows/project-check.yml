@@ -32,3 +32,23 @@ jobs:
           make install
       - name: Run Tests
         run: make test
+  coverage:
+    needs: [ auto_tests ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.7'
+      - name: Install Dependencies
+        run: |
+          pip install poetry
+          make install
+      - name: Make Report and Publish
+        uses: paambaati/codeclimate-action@v2.7.4
+        env:
+          CC_TEST_REPORTER_ID: 70338f403af88121c610b711644d5f13eee0ddb12156ad0fd8c6572270b66840
+        with:
+          coverageCommand: make coverage
+          debug: true
