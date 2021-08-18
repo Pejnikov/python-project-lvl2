@@ -32,8 +32,21 @@ jobs:
           make install
       - name: Run Tests
         run: make test
-      - name: Make Report
+      - name: Make Coverage Report
         run: make coverage
+      - name: Upload Coverage Report
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage_report
+          path: coverage.xml
+  push_coverage_report:
+    needs: [ auto_tests ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Coverage Report
+        uses: actions/download-artifact@v2
+        with:
+          name: homework
       - name: Publish Report
         uses: paambaati/codeclimate-action@v2.7.4
         env:
