@@ -46,7 +46,7 @@ jobs:
       - name: Download Coverage Report
         uses: actions/download-artifact@v2
         with:
-          name: homework
+          name: coverage_report
       - name: Publish Report
         uses: paambaati/codeclimate-action@v2.7.4
         env:
