@@ -3,9 +3,9 @@ __pycache__
 dist/
 *.pyc
 .venv/
-.coverage
-.json
+*.json
 .vscode/
+.coverage
 coverage.xml
 .pytest_cache/
 .vim

@@ -1,20 +1,18 @@
 import argparse
 import json
 from string import Template
+from os.path import abspath
 
 
 def generate_diff(filepath1, filepath2):
     file1 = get_file(filepath1)
     file2 = get_file(filepath2)
-    not_in_file1 = set(file2) - set(file1)
-    not_in_file2 = set(file1) - set(file2)
-    intersection = set(file1) & set(file2)
     result = []
-    for item in not_in_file1:
+    for item in set(file2) - set(file1):
         result.append(('+', item, file2[item]))
-    for item in not_in_file2:
+    for item in set(file1) - set(file2):
         result.append(('-', item, file1[item]))
-    for item in intersection:
+    for item in set(file1) & set(file2):
         if file1[item] == file2[item]:
             result.append((' ', item, file1[item]))
             continue
@@ -23,13 +21,24 @@ def generate_diff(filepath1, filepath2):
     return get_string_result(sorted(result, key=lambda keyq: keyq[1]))
 
 
+def transform_to_json(value):
+    value = str(value)
+    if value == 'True':
+        value = 'true'
+    elif value == 'False':
+        value = 'false'
+    elif value == 'None':
+        value = 'null'
+    return value
+
+
 def get_string_result(items):
-    result = '{\n'
+    diff = ''
     temp = Template('  $flag $key: $value\n')
     for item in items:
-        result += temp.substitute(flag=item[0], key=item[1], value=item[2])
-    result += '}'
-    return result
+        value = transform_to_json(item[2])
+        diff += temp.substitute(flag=item[0], key=item[1], value=value)
+    return '{{\n{}}}'.format(diff)
 
 
 def get_args():
@@ -41,7 +50,7 @@ def get_args():
 
 
 def get_file(filepath):
-    return json.load(open(filepath))
+    return json.load(open(abspath(filepath)))
 
 
 def main():
