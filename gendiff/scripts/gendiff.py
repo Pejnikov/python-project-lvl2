@@ -1,12 +1,15 @@
 import argparse
 import json
+import yaml
 from string import Template
 from os.path import abspath
+
 
 
 def generate_diff(filepath1, filepath2):
     file1 = get_file(filepath1)
     file2 = get_file(filepath2)
+    print(file1, file2)
     result = []
     for item in set(file2) - set(file1):
         result.append(('+', item, file2[item]))
@@ -22,12 +25,11 @@ def generate_diff(filepath1, filepath2):
 
 
 def transform_to_json(value):
-    value = str(value)
-    if value == 'True':
+    if value is True:
         value = 'true'
-    elif value == 'False':
+    elif value is False:
         value = 'false'
-    elif value == 'None':
+    elif value is None:
         value = 'null'
     return value
 
@@ -50,7 +52,10 @@ def get_args():
 
 
 def get_file(filepath):
-    return json.load(open(abspath(filepath)))
+    filepath = abspath(filepath)
+    if filepath.endswith('.yaml') or filepath.endswith('.yml'):
+        return yaml.load(open(filepath), Loader=yaml.Loader)
+    return json.load(open(filepath))
 
 
 def main():
