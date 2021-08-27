@@ -1,0 +1,15 @@
+{
+    common: {
+        setting: Value
+    }
+  + common1: {
+        setting1: Value 1
+    }
+  - common2: {
+        setting2: Value 2
+    }
+    common3: {
+      - setting3: Value 3
+      + setting3: Value 4
+    }
+}

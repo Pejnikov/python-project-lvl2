@@ -1,0 +1,11 @@
+{
+    "common": {
+      "setting": "Value"
+    },
+    "common2": {
+      "setting2": "Value 2"
+    },
+    "common3": {
+      "setting3": "Value 3"
+    }
+  }
