@@ -22,4 +22,5 @@ def test_generate_diff(file1, file2, expected_diff):
     expected_diff = artifacts_path + expected_diff
     with open(abspath(expected_diff), 'r') as file:
         data = file.read()
+    print(generate_diff(file1, file2))
     assert generate_diff(file1, file2) == data

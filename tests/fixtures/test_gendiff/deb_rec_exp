@@ -12,4 +12,10 @@
       - setting3: Value 3
       + setting3: Value 4
     }
+    common4: {
+      - setting4: Value 4
+      + setting4: {
+            nested_setting: nested value
+      }
+    }
 }

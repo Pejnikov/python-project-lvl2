@@ -7,5 +7,10 @@
     },
     "common3": {
       "setting3": "Value 4"
+    },
+    "common4": {
+      "setting4": {
+        "nested_setting": "nested value"
+      }
     }
   }
