@@ -1,5 +1,5 @@
 from string import Template
-from gendiff.difference import get_name, get_value
+from gendiff.difference import get_name, get_value, get_diff
 from gendiff.difference import has_children, is_added, is_removed, is_not_changed, get_changed_value
 
 
@@ -20,6 +20,13 @@ def get_string_result(diffs):
         for diff in diffs:
             key = get_name(diff)
             value = get_value(diff)
+            changed_value = get_changed_value(diff)
+            if isinstance(changed_value, dict):
+                changed_value = get_diff(changed_value, changed_value)
+                changed_value = walk(changed_value, intend + '    ')
+            if isinstance(value, dict):
+                value = get_diff(value, value)
+                value = walk(value, intend + '    ')
             if has_children(diff):
                 value = walk(value, intend + '    ')
             value = to_json(value)
@@ -30,7 +37,6 @@ def get_string_result(diffs):
             elif is_not_changed(diff):
                 result += temp.substitute(flag=' ', key=key, value=value)
             else:
-                changed_value = get_changed_value(diff)
                 changed_value = to_json(changed_value)
                 result += temp.substitute(flag='-', key=key, value=value)
                 result += temp.substitute(flag='+', key=key, value=changed_value)

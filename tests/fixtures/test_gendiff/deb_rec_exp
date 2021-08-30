@@ -16,6 +16,6 @@
       - setting4: Value 4
       + setting4: {
             nested_setting: nested value
-      }
+        }
     }
 }
