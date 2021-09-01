@@ -23,5 +23,5 @@ def test_generate_diff(file1, file2, expected_diff):
     with open(abspath(expected_diff), 'r') as file:
         data = file.read()
     print(generate_diff(file1, file2))
-    print(data)
+    print('Expected:\n' + data)
     assert generate_diff(file1, file2) == data

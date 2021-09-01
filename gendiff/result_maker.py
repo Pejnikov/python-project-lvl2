@@ -2,6 +2,8 @@ from string import Template
 from gendiff.difference import get_name, get_value, get_diff
 from gendiff.difference import has_children, is_added, is_removed, is_not_changed, get_changed_value
 
+INTENT = '    '
+
 
 def to_json(value):
     if value is True:
@@ -22,11 +24,9 @@ def get_string_result(diffs):
             value = get_value(diff)
             changed_value = get_changed_value(diff)
             if isinstance(changed_value, dict):
-                changed_value = get_diff(changed_value, changed_value)
-                changed_value = walk(changed_value, intend + '    ')
+                changed_value = get_format(changed_value, intend + INTENT)
             if isinstance(value, dict):
-                value = get_diff(value, value)
-                value = walk(value, intend + '    ')
+                value = get_format(value, intend + INTENT)
             if has_children(diff):
                 value = walk(value, intend + '    ')
             value = to_json(value)
@@ -43,3 +43,19 @@ def get_string_result(diffs):
         result = '{{\n{}{}}}'.format(result, intend)
         return result
     return walk(diffs)
+
+
+def get_diff_string(intend, flag, key, value):
+    return '{}  {} {}: {}\n'.format(intend, flag, key, value)
+
+
+def get_format(items, intent):
+    sorted_items = sorted(items.items())
+    result = ''
+    for (key, value) in sorted_items:
+        if isinstance(value, dict):
+            value = get_format(value, intent + INTENT)
+        result += get_diff_string(intent, ' ', key, value)
+    result = '{{\n{}{}}}'.format(result, intent)
+    return result
+        
