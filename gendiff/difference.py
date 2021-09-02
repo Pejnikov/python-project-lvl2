@@ -1,5 +1,10 @@
 
-DIFF_TYPES = ['ADDED', 'REMOVED', 'UNMODIFIED', 'UPDATED']
+DIFF_TYPES = {
+    'ADDED': 'ADDED',
+    'REMOVED': 'REMOVED',
+    'UNMODIFIED': 'UNMODIFIED',
+    'UPDATED': 'UPDATED',
+}
 
 
 def get_diff(file1, file2):
@@ -27,26 +32,26 @@ def make_diff(flag, key, value, changed_value=None, nested=False):
 
 
 def make_added(key, value):
-    diff = make_diff(DIFF_TYPES[0], key, value)
+    diff = make_diff(DIFF_TYPES['ADDED'], key, value)
     return diff
 
 
 def make_removed(key, value):
-    diff = make_diff(DIFF_TYPES[1], key, value)
+    diff = make_diff(DIFF_TYPES['REMOVED'], key, value)
     return diff
 
 
 def make_unmodified(key, value, nested_flag=False):
-    diff = make_diff(DIFF_TYPES[2], key, value, nested=nested_flag)
+    diff = make_diff(DIFF_TYPES['UNMODIFIED'], key, value, nested=nested_flag)
     return diff
 
 
 def make_updated(key, initial_value, changed_value):
-    diff = make_diff(DIFF_TYPES[3], key, initial_value, changed_value)
+    diff = make_diff(DIFF_TYPES['UPDATED'], key, initial_value, changed_value)
     return diff
 
 
-def get_flag(diff):
+def get_type(diff):
     return diff[0]
 
 
@@ -57,32 +62,9 @@ def get_name(diff):
 def get_value(diff):
     return diff[2]
 
+
 def get_changed_value(diff):
     return diff[3]
-
-
-def is_removed(diff):
-    if diff[0] == DIFF_TYPES[1]:
-        return True
-    return False
-
-
-def is_added(diff):
-    if diff[0] == DIFF_TYPES[0]:
-        return True
-    return False
-
-
-def is_not_changed(diff):
-    if diff[0] == DIFF_TYPES[2]:
-        return True
-    return False
-
-
-def is_changed(diff):
-    if diff[0] == DIFF_TYPES[3]:
-        return True
-    return False
 
 
 def has_children(diff):

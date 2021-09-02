@@ -1,6 +1,6 @@
 from gendiff.parser import get_file
 from gendiff.result_maker import get_string_result
-from gendiff.difference import get_diff 
+from gendiff.difference import get_diff
 
 
 def generate_diff(filepath1, filepath2):

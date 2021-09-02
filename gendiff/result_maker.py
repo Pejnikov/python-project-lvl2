@@ -1,11 +1,69 @@
-from string import Template
-from gendiff.difference import get_name, get_value, get_diff
-from gendiff.difference import has_children, is_added, is_removed, is_not_changed, get_changed_value
-
-INTENT = '    '
+from gendiff.difference import get_name, get_value, get_type, DIFF_TYPES
+from gendiff.difference import has_children, get_changed_value
 
 
-def to_json(value):
+INDENT = '    '
+DIFF_ID = {
+    DIFF_TYPES['ADDED']: '+',
+    DIFF_TYPES['REMOVED']: '-',
+    DIFF_TYPES['UNMODIFIED']: ' ',
+    DIFF_TYPES['UPDATED']: '-',
+}
+
+
+def get_string_result(diffs):
+    def walk(diffs, cur_indent=''):
+        result = ''
+        for diff in diffs:
+            diff_type = get_type(diff)
+            name = get_name(diff)
+            value = get_value(diff)
+            new_value = get_changed_value(diff)
+            if has_children(diff):
+                value = walk(value, cur_indent + INDENT)
+            result += make_string(cur_indent, diff_type, name, value, new_value)
+        result = make_result_string(result, cur_indent)
+        return result
+    return walk(diffs)
+
+
+def make_string(indent, diff_type, name, value, new_value):
+    value = format_value(value, indent)
+    new_value = format_value(new_value, indent)
+    result = format_string(indent, DIFF_ID[diff_type], name, value)
+    if diff_type is DIFF_TYPES['UPDATED']:
+        result += format_string(indent, DIFF_ID['ADDED'], name, new_value)
+    return result
+
+
+def format_value(value, intend):
+    if isinstance(value, dict):
+        value = get_formatted_dict(value, intend + INDENT)
+    value = format_python_types(value)
+    return value
+
+
+def format_string(indent, flag, key, value):
+    return '{}  {} {}: {}\n'.format(indent, flag, key, value)
+
+
+def get_formatted_dict(items, indent):
+    sorted_items = sorted(items.items())
+    result = ''
+    for (key, value) in sorted_items:
+        if isinstance(value, dict):
+            value = get_formatted_dict(value, indent + INDENT)
+        result += format_string(indent, ' ', key, value)
+    result = make_result_string(result, indent)
+    return result
+
+
+def make_result_string(result, indent):
+    result_string = '{{\n{}{}}}'.format(result, indent)
+    return result_string
+
+
+def format_python_types(value):
     if value is True:
         value = 'true'
     elif value is False:
@@ -13,49 +71,3 @@ def to_json(value):
     elif value is None:
         value = 'null'
     return value
-
-
-def get_string_result(diffs):
-    def walk(diffs, intend = ''):
-        result = ''
-        temp = Template(intend + '  $flag $key: $value\n')
-        for diff in diffs:
-            key = get_name(diff)
-            value = get_value(diff)
-            changed_value = get_changed_value(diff)
-            if isinstance(changed_value, dict):
-                changed_value = get_format(changed_value, intend + INTENT)
-            if isinstance(value, dict):
-                value = get_format(value, intend + INTENT)
-            if has_children(diff):
-                value = walk(value, intend + '    ')
-            value = to_json(value)
-            if is_added(diff):
-                result += temp.substitute(flag='+', key=key, value=value)
-            elif is_removed(diff):
-                result += temp.substitute(flag='-', key=key, value=value)
-            elif is_not_changed(diff):
-                result += temp.substitute(flag=' ', key=key, value=value)
-            else:
-                changed_value = to_json(changed_value)
-                result += temp.substitute(flag='-', key=key, value=value)
-                result += temp.substitute(flag='+', key=key, value=changed_value)
-        result = '{{\n{}{}}}'.format(result, intend)
-        return result
-    return walk(diffs)
-
-
-def get_diff_string(intend, flag, key, value):
-    return '{}  {} {}: {}\n'.format(intend, flag, key, value)
-
-
-def get_format(items, intent):
-    sorted_items = sorted(items.items())
-    result = ''
-    for (key, value) in sorted_items:
-        if isinstance(value, dict):
-            value = get_format(value, intent + INTENT)
-        result += get_diff_string(intent, ' ', key, value)
-    result = '{{\n{}{}}}'.format(result, intent)
-    return result
-        
