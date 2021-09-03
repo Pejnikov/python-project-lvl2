@@ -46,8 +46,8 @@ def make_unmodified(key, value, nested_flag=False):
     return diff
 
 
-def make_updated(key, initial_value, changed_value):
-    diff = make_diff(DIFF_TYPES['UPDATED'], key, initial_value, changed_value)
+def make_updated(key, initial_value, new_value):
+    diff = make_diff(DIFF_TYPES['UPDATED'], key, initial_value, new_value)
     return diff
 
 
@@ -63,7 +63,7 @@ def get_value(diff):
     return diff[2]
 
 
-def get_changed_value(diff):
+def get_new_value(diff):
     return diff[3]
 
 

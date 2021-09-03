@@ -1,5 +1,5 @@
 from gendiff.difference import get_name, get_value, get_type, DIFF_TYPES
-from gendiff.difference import has_children, get_changed_value
+from gendiff.difference import has_children, get_new_value
 
 
 INDENT = '    '
@@ -11,23 +11,23 @@ DIFF_ID = {
 }
 
 
-def get_string_result(diffs):
+def get_stylish(diffs):
     def walk(diffs, cur_indent=''):
         result = ''
         for diff in diffs:
             diff_type = get_type(diff)
             name = get_name(diff)
             value = get_value(diff)
-            new_value = get_changed_value(diff)
+            new_value = get_new_value(diff)
             if has_children(diff):
                 value = walk(value, cur_indent + INDENT)
-            result += make_string(cur_indent, diff_type, name, value, new_value)
+            result += style_string(cur_indent, diff_type, name, value, new_value)
         result = make_result_string(result, cur_indent)
         return result
     return walk(diffs)
 
 
-def make_string(indent, diff_type, name, value, new_value):
+def style_string(indent, diff_type, name, value, new_value):
     value = format_value(value, indent)
     new_value = format_value(new_value, indent)
     result = format_string(indent, DIFF_ID[diff_type], name, value)
