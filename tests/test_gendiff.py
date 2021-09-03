@@ -1,14 +1,12 @@
 from gendiff.diff_engine import generate_diff
+from gendiff.formatters.plain import get_plain
 from os.path import abspath
 import pytest
 
 
-#hx_plain_exp = hx_plain_exp'
-#rec_exp_diff = 'tests/fixtures/test_gendiff/hx_rec_exp'
+ARTIFACTS_PATH = 'tests/fixtures/test_gendiff/'
 
-artifacts_path = 'tests/fixtures/test_gendiff/'
-
-@pytest.mark.parametrize("file1,file2,expected_diff", [(
+@pytest.mark.parametrize("file1,file2,expected_output", [(
     'hx_plain1.json', 'hx_plain2.json', 'hx_plain_exp',), (
     'hx_plain1.yaml', 'hx_plain2.yml', 'hx_plain_exp',), (
     'deb_rec1.json', 'deb_rec2.json', 'deb_rec_exp',), (
@@ -16,12 +14,29 @@ artifacts_path = 'tests/fixtures/test_gendiff/'
     'hx_rec1.yml', 'hx_rec2.yml', 'hx_rec_exp',
     )
 ])
-def test_generate_diff(file1, file2, expected_diff):
-    file1 = artifacts_path + file1
-    file2 = artifacts_path + file2
-    expected_diff = artifacts_path + expected_diff
-    with open(abspath(expected_diff), 'r') as file:
+def test_stylish_diff(file1, file2, expected_output):
+    file1 = make_artifacts_path(file1)
+    file2 = make_artifacts_path(file2)
+    expected_output = make_artifacts_path(expected_output)
+    with open(abspath(expected_output), 'r') as file:
         data = file.read()
-    print(generate_diff(file1, file2))
-    print('Expected:\n' + data)
     assert generate_diff(file1, file2) == data
+
+
+@pytest.mark.parametrize("file1,file2,expected_output", [(
+    'hx_plain1.json', 'hx_plain2.json', 'hx_plain_fplain_exp',), (
+    'deb_rec1.json', 'deb_rec2.json', 'deb_rec_fplain_exp',), (
+    'hx_rec1.json', 'hx_rec2.json', 'hx_rec_fplain_exp',
+    )
+])
+def test_plain_diff(file1, file2, expected_output):
+    file1 = make_artifacts_path(file1)
+    file2 = make_artifacts_path(file2)
+    expected_output = make_artifacts_path(expected_output)
+    with open(abspath(expected_output), 'r') as file:
+        data = file.read()
+    assert generate_diff(file1, file2, get_plain) == data
+
+
+def make_artifacts_path(file):
+    return ARTIFACTS_PATH + file
