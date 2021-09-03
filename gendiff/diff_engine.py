@@ -1,5 +1,5 @@
 from gendiff.parser import get_file
-from gendiff.stylish import get_stylish
+from gendiff.formatters.stylish import get_stylish
 from gendiff.difference import get_diff
 
 
