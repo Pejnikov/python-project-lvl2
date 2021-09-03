@@ -17,11 +17,11 @@ def get_diff(file1, file2):
     for key in not_in_file2:
         result.append(make_removed(key, file1[key]))
     for key in intersection:
-        if isinstance(file1[key], dict) and isinstance(file2[key], dict):
+        if file1[key] == file2[key]:
+            result.append(make_unmodified(key, file1[key]))
+        elif isinstance(file1[key], dict) and isinstance(file2[key], dict):
             nested_diff = get_diff(file1[key], file2[key])
             result.append(make_unmodified(key, nested_diff, nested_flag=True))
-        elif file1[key] == file2[key]:
-            result.append(make_unmodified(key, file1[key]))
         else:
             result.append(make_updated(key, file1[key], file2[key]))
     return sorted(result, key=lambda key: key[1])

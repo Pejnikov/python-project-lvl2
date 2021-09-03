@@ -15,13 +15,13 @@ def get_stylish(diffs):
     def walk(diffs, cur_indent=''):
         result = ''
         for diff in diffs:
-            diff_type = get_type(diff)
+            type = get_type(diff)
             name = get_name(diff)
             value = get_value(diff)
             new_value = get_new_value(diff)
             if has_children(diff):
                 value = walk(value, cur_indent + INDENT)
-            result += style_string(cur_indent, diff_type, name, value, new_value)
+            result += style_string(cur_indent, type, name, value, new_value)
         result = make_result_string(result, cur_indent)
         return result
     return walk(diffs)
