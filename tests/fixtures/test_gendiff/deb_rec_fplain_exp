@@ -1,4 +1,4 @@
 Property 'common1' was added with value: [complex value]
 Property 'common2' was removed
-Property 'common3' was updated. From 'Value 3' to 'Value 4'
-Property 'common4' was updated. From 'Value 4' to [complex value]
+Property 'common3.setting3' was updated. From 'Value 3' to 'Value 4'
+Property 'common4.setting4' was updated. From 'Value 4' to [complex value]
