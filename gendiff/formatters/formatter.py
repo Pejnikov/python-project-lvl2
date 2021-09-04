@@ -3,9 +3,9 @@ from gendiff.formatters.plain import get_plain
 
 
 def get_formater(name):
-    if name is 'plain':
+    if name == 'plain':
         return get_plain
-    if name is 'stylish':
+    if name == 'stylish':
         return get_stylish
     else:
         raise ValueError
