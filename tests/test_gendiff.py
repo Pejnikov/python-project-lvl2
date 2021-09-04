@@ -1,5 +1,4 @@
 from gendiff.diff_engine import generate_diff
-from gendiff.formatters.plain import get_plain
 from os.path import abspath
 import pytest
 
@@ -20,7 +19,7 @@ def test_stylish_diff(file1, file2, expected_output):
     expected_output = make_artifacts_path(expected_output)
     with open(abspath(expected_output), 'r') as file:
         data = file.read()
-    assert generate_diff(file1, file2) == data
+    assert generate_diff(file1, file2, 'stylish') == data
 
 
 @pytest.mark.parametrize("file1,file2,expected_output", [(
@@ -35,7 +34,7 @@ def test_plain_diff(file1, file2, expected_output):
     expected_output = make_artifacts_path(expected_output)
     with open(abspath(expected_output), 'r') as file:
         data = file.read()
-    assert generate_diff(file1, file2, get_plain) == data
+    assert generate_diff(file1, file2, 'plain') == data
 
 
 def make_artifacts_path(file):
