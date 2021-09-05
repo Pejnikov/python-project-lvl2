@@ -2,18 +2,19 @@ from gendiff.difference import get_name, get_value, get_type, get_new_value
 from gendiff.difference import DIFF_TYPES, has_children
 
 
+PATH_DIVIDER = '.'
+
+
 def get_plain(diffs):
     def walk(diffs, name):
         result = ''
-        if name:
-            name += '.'
         for diff in diffs:
             diff_type = get_type(diff)
             cur_name = name + get_name(diff)
             value = get_value(diff)
             new_value = get_new_value(diff)
             if has_children(diff):
-                result += walk(value, cur_name)
+                result += walk(value, cur_name + PATH_DIVIDER)
             result += plain_string(diff_type, cur_name, value, new_value)
         return result
     return walk(diffs, name='').rstrip("\n")

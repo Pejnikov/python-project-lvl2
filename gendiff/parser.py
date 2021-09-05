@@ -2,6 +2,7 @@ import argparse
 import json
 import yaml
 from os.path import abspath
+from gendiff.formatters.formatter import FORMATTERS
 
 
 def get_args():
@@ -12,6 +13,7 @@ def get_args():
         '-f',
         '--format',
         default='stylish',
+        choices=list(FORMATTERS),
         help='set format of output')
     return parser.parse_args()
 
