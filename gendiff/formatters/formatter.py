@@ -4,8 +4,8 @@ from gendiff.formatters.json import get_json
 
 
 FORMATTERS = {
-    'plain': get_plain,
     'stylish': get_stylish,
+    'plain': get_plain,
     'json': get_json
 }
 
