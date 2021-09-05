@@ -1,12 +1,15 @@
 from gendiff.parser import parse_data
 from gendiff.difference import get_diff
-from gendiff.formatters.formatter import get_formater
+from gendiff.formatters.formatter import get_formater, FORMATTERS
 
 
-def generate_diff(filepath1, filepath2, formatter_name='stylish'):
+DEFAULT_FORMATTER = list(FORMATTERS)[0]
+
+
+def generate_diff(filepath1, filepath2, formatter_name=DEFAULT_FORMATTER):
     file1 = parse_data(filepath1)
     file2 = parse_data(filepath2)
     result = get_diff(file1, file2)
     formatter = get_formater(formatter_name)
-    result_string = formatter(result)
-    return result_string
+    formatted_string = formatter(result)
+    return formatted_string

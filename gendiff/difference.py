@@ -11,20 +11,20 @@ def get_diff(file1, file2):
     not_in_file1 = set(file2) - set(file1)
     not_in_file2 = set(file1) - set(file2)
     intersection = set(file1) & set(file2)
-    result = []
+    diffs = []
     for key in not_in_file1:
-        result.append(make_added(key, file2[key]))
+        diffs.append(make_added(key, file2[key]))
     for key in not_in_file2:
-        result.append(make_removed(key, file1[key]))
+        diffs.append(make_removed(key, file1[key]))
     for key in intersection:
         if file1[key] == file2[key]:
-            result.append(make_unmodified(key, file1[key]))
+            diffs.append(make_unmodified(key, file1[key]))
         elif isinstance(file1[key], dict) and isinstance(file2[key], dict):
             nested_diff = get_diff(file1[key], file2[key])
-            result.append(make_unmodified(key, nested_diff, nested_flag=True))
+            diffs.append(make_unmodified(key, nested_diff, nested_flag=True))
         else:
-            result.append(make_updated(key, file1[key], file2[key]))
-    return sorted(result, key=lambda key: key[1])
+            diffs.append(make_updated(key, file1[key], file2[key]))
+    return sorted(diffs, key=lambda key: key[1])
 
 
 def make_diff(flag, key, value, changed_value=None, nested=False):
