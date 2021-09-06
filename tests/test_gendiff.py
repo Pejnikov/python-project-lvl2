@@ -12,7 +12,7 @@ ARTIFACTS_PATH = 'tests/fixtures/test_gendiff/'
     'deb_rec1.json', 'deb_rec2.json', 'deb_rec_exp',), (
     'hx_rec1.json', 'hx_rec2.json', 'hx_rec_exp',), (
     'hx_rec1.yml', 'hx_rec2.yml', 'hx_rec_exp',
-    )]
+)]
 )
 def test_stylish_diff(file1, file2, expected_output):
     file1 = make_artifacts_path(file1)
@@ -27,7 +27,7 @@ def test_stylish_diff(file1, file2, expected_output):
     'hx_plain1.json', 'hx_plain2.json', 'hx_plain_fplain_exp',), (
     'deb_rec1.json', 'deb_rec2.json', 'deb_rec_fplain_exp',), (
     'hx_rec1.json', 'hx_rec2.json', 'hx_rec_fplain_exp',
-    )]
+)]
 )
 def test_plain_diff(file1, file2, expected_output):
     file1 = make_artifacts_path(file1)
@@ -40,7 +40,7 @@ def test_plain_diff(file1, file2, expected_output):
 
 @pytest.mark.parametrize("file1,file2,expected_output", [(
     'deb_rec1.json', 'deb_rec2.json', 'deb_rec_fjson_exp',
-    )]
+)]
 )
 def test_json_diff(file1, file2, expected_output):
     file1 = make_artifacts_path(file1)
