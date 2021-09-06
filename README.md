@@ -24,8 +24,10 @@ diff = generate_diff(file_path1, file_path2)
 print(diff)
 ```
 ### 🪄 Quick Example
-```json
+```bath
 $ cat file1 file2
+```
+```json
 {
     "unmodified": "health",
     "removed": "time",
@@ -36,7 +38,11 @@ $ cat file1 file2
     "added": "knowledge",
     "updated": "10000$"
 }
+```
+```bath
 $ gendiff file1 file2
+```
+```bath
 {
   + added: knowledge
   - removed: time
@@ -44,7 +50,11 @@ $ gendiff file1 file2
   - updated: 1000$
   + updated: 10000$
 }
+```
+```bath
 $ gendiff file1 file2 -f plain
+```
+```bath
 Property 'added' was added with value: 'knowledge'
 Property 'removed' was removed
 Property 'updated' was updated. From '1000$' to '10000$'
