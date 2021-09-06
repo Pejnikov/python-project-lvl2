@@ -48,5 +48,7 @@ def format_value(value):
         return '[complex value]'
     elif need_string(value):
         return get_type_string(value)
+    elif isinstance(value, int):
+        return value
     value = "'{}'".format(value)
     return value
