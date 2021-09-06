@@ -1,5 +1,6 @@
 from gendiff.difference import get_name, get_value, get_type, DIFF_TYPES
 from gendiff.difference import has_children, get_new_value
+from gendiff.formatters.common import get_type_string, need_string
 
 
 INDENT = '    '
@@ -39,7 +40,8 @@ def style_string(indent, diff_type, name, value, new_value):
 def format_value(value, intend):
     if isinstance(value, dict):
         value = get_formatted_dict(value, intend + INDENT)
-    value = format_python_types(value)
+    elif need_string(value):
+        value = get_type_string(value)
     return value
 
 
@@ -61,13 +63,3 @@ def get_formatted_dict(items, indent):
 def make_result_string(result, indent):
     result_string = '{{\n{}{}}}'.format(result, indent)
     return result_string
-
-
-def format_python_types(value):
-    if value is True:
-        value = 'true'
-    elif value is False:
-        value = 'false'
-    elif value is None:
-        value = 'null'
-    return value
