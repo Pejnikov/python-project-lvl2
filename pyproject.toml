@@ -1,8 +1,14 @@
 [tool.poetry]
 name = "hexlet-code"
-version = "0.4.1"
-description = ""
-authors = ["Your Name <you@example.com>"]
+version = "0.5.1"
+description = "Tool for checking difference in json/yaml files"
+authors = ["Pejnikov"]
+repository = "https://github.com/Pejnikov/python-project-lvl2"
+classifiers = [
+    "License :: Free For Educational Use",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.7"
+]
 packages = [
   { include = "gendiff" },
 ]
