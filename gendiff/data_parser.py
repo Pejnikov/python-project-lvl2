@@ -7,7 +7,9 @@ def parse_data(filepath):
     data = get_file_data(filepath)
     if filepath.endswith('.yaml') or filepath.endswith('.yml'):
         return yaml.load(data, Loader=yaml.Loader)
-    return json.loads(data)
+    elif filepath.endswith('.json'):
+        return json.loads(data)
+    raise ValueError
 
 
 def get_file_data(filepath):
