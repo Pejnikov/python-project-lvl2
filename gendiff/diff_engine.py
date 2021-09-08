@@ -1,4 +1,4 @@
-from gendiff.parser import parse_data
+from gendiff.data_parser import parse_data
 from gendiff.difference import get_diff
 from gendiff.formatters.formatter import get_formater
 
