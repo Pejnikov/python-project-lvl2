@@ -53,3 +53,9 @@ def test_json_diff(file1, file2, expected_output):
 
 def make_artifacts_path(file):
     return ARTIFACTS_PATH + file
+
+
+def test_invalid_input():
+    fake_data = make_artifacts_path('fake_data.jpeg')
+    with pytest.raises(ValueError):
+        generate_diff(fake_data, fake_data)
