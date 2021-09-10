@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "hexlet-code"
-version = "0.5.1"
+version = "0.6.1"
 description = "Tool for checking difference in json/yaml files"
 authors = ["Pejnikov"]
 repository = "https://github.com/Pejnikov/python-project-lvl2"
