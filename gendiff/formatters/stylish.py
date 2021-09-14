@@ -14,7 +14,7 @@ DIFF_ID = {
 
 def get_stylish(diffs):
     def walk(diffs, cur_indent=''):
-        result = ''
+        result = []
         for diff in diffs:
             type = get_type(diff)
             name = get_name(diff)
@@ -22,19 +22,20 @@ def get_stylish(diffs):
             new_value = get_new_value(diff)
             if has_children(diff):
                 value = walk(value, cur_indent + INDENT)
-            result += style_string(cur_indent, type, name, value, new_value)
-        result = make_result_string(result, cur_indent)
-        return result
+            result.append(diff_line(cur_indent, type, name, value, new_value))
+        result_string = make_result_string('\n'.join(result), cur_indent)
+        return result_string
     return walk(diffs)
 
 
-def style_string(indent, diff_type, name, value, new_value):
+def diff_line(indent, diff_type, name, value, new_value):
     value = format_value(value, indent)
     new_value = format_value(new_value, indent)
-    result = format_string(indent, DIFF_ID[diff_type], name, value)
+    line = format_string(indent, DIFF_ID[diff_type], name, value)
     if diff_type is DIFF_TYPES['UPDATED']:
-        result += format_string(indent, DIFF_ID['ADDED'], name, new_value)
-    return result
+        updated_line = format_string(indent, DIFF_ID['ADDED'], name, new_value)
+        line = '\n'.join([line, updated_line])
+    return line
 
 
 def format_value(value, intend):
@@ -46,20 +47,20 @@ def format_value(value, intend):
 
 
 def format_string(indent, flag, key, value):
-    return '{}  {} {}: {}\n'.format(indent, flag, key, value)
+    return '{}  {} {}: {}'.format(indent, flag, key, value)
 
 
 def get_formatted_dict(items, indent):
     sorted_items = sorted(items.items())
-    result = ''
+    result = []
     for (key, value) in sorted_items:
         if isinstance(value, dict):
             value = get_formatted_dict(value, indent + INDENT)
-        result += format_string(indent, ' ', key, value)
-    result = make_result_string(result, indent)
-    return result
+        result.append(format_string(indent, ' ', key, value))
+    result_string = make_result_string('\n'.join(result), indent)
+    return result_string
 
 
 def make_result_string(result, indent):
-    result_string = '{{\n{}{}}}'.format(result, indent)
+    result_string = '{{\n{}\n{}}}'.format(result, indent)
     return result_string

@@ -7,26 +7,29 @@ PATH_DIVIDER = '.'
 
 def get_plain(diffs):
     def walk(diffs, name):
-        result = ''
+        result = []
         for diff in diffs:
             diff_type = get_type(diff)
             cur_name = name + get_name(diff)
             value = get_value(diff)
             new_value = get_new_value(diff)
             if has_children(diff):
-                result += walk(value, cur_name + PATH_DIVIDER)
-            result += plain_string(diff_type, cur_name, value, new_value)
-        return result
-    return walk(diffs, name='').rstrip("\n")
+                children_string = walk(value, cur_name + PATH_DIVIDER)
+                result.append(children_string)
+                continue
+            if diff_type is DIFF_TYPES['UNMODIFIED']:
+                continue
+            main_string = plain_string(diff_type, cur_name, value, new_value)
+            result.append(main_string)
+        return '\n'.join(result)
+    return walk(diffs, name='')
 
 
 def plain_string(diff_type, name, value, new_value):
     result = ''
-    if diff_type is DIFF_TYPES['UNMODIFIED']:
-        return result
     first_msg_part = "Property '{}' was ".format(name)
     second_msg_part = make_diff_msg(diff_type, value, new_value)
-    result = "{}{}\n".format(first_msg_part, second_msg_part)
+    result = "{}{}".format(first_msg_part, second_msg_part)
     return result
 
 
