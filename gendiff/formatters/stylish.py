@@ -1,6 +1,5 @@
 from gendiff.difference import get_name, get_value, get_type, DIFF_TYPES
 from gendiff.difference import has_children, get_new_value
-from gendiff.formatters.common import get_type_string, need_string
 
 
 INDENT = '    '
@@ -9,6 +8,11 @@ DIFF_ID = {
     DIFF_TYPES['REMOVED']: '-',
     DIFF_TYPES['UNMODIFIED']: ' ',
     DIFF_TYPES['UPDATED']: '-',
+}
+STRINGS_OF_TYPES = {
+    True: 'true',
+    False: 'false',
+    None: 'null'
 }
 
 
@@ -41,8 +45,8 @@ def diff_line(indent, diff_type, name, value, new_value):
 def format_value(value, intend):
     if isinstance(value, dict):
         value = get_formatted_dict(value, intend + INDENT)
-    elif need_string(value):
-        value = get_type_string(value)
+    elif isinstance(value, bool) or value is None:
+        value = STRINGS_OF_TYPES[value]
     return value
 
 

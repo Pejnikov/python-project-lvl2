@@ -1,8 +1,12 @@
 from gendiff.difference import get_name, get_value, get_type, get_new_value
 from gendiff.difference import DIFF_TYPES, has_children
-from gendiff.formatters.common import get_type_string, need_string
 
 PATH_DIVIDER = '.'
+STRINGS_OF_TYPES = {
+    True: 'true',
+    False: 'false',
+    None: 'null'
+}
 
 
 def get_plain(diffs):
@@ -49,8 +53,8 @@ def make_diff_msg(diff_type, value, new_value=None):
 def format_value(value):
     if isinstance(value, dict):
         return '[complex value]'
-    elif need_string(value):
-        return get_type_string(value)
+    elif isinstance(value, bool) or value is None:
+        return STRINGS_OF_TYPES[value]
     elif isinstance(value, int):
         return value
     value = "'{}'".format(value)
