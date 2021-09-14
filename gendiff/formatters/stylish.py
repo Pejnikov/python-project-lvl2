@@ -19,6 +19,7 @@ STRINGS_OF_TYPES = {
 
 def get_stylish(diffs):
     def walk(diffs, cur_indent=''):
+        diffs = sorted(diffs, key = get_name)
         result = []
         for diff in diffs:
             type = get_type(diff)

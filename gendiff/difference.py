@@ -23,7 +23,7 @@ def get_diff(file1, file2):
             diffs.append(make_unmodified(key, nested_diff, nested_flag=True))
         else:
             diffs.append(make_updated(key, file1[key], file2[key]))
-    return sorted(diffs, key=lambda key: key[1])
+    return diffs
 
 
 def make_diff(flag, key, value, changed_value=None, nested=False):
