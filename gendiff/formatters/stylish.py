@@ -1,15 +1,13 @@
-from gendiff.difference import get_name, get_value, get_type, ADDED, REMOVED
-from gendiff.difference import has_children, get_new_value, UNMODIFIED
-from gendiff.difference import UPDATED
+from gendiff.difference import get_name, get_value, get_type
+from gendiff.difference import has_children, get_new_value
+from gendiff.difference import UPDATED, ADDED, REMOVED
 
 
 INDENT = '    '
-DIFF_ID = {
-    ADDED: '+',
-    REMOVED: '-',
-    UNMODIFIED: ' ',
-    UPDATED: '-',
-}
+ADDED_FLAG = '+'
+REMOVED_FLAG = '-'
+UNMODIFIED_FLAG = ' '
+UPDATED_FLAG = '-'
 STRINGS_OF_TYPES = {
     True: 'true',
     False: 'false',
@@ -37,9 +35,18 @@ def get_stylish(diffs):
 def diff_line(indent, diff_type, name, value, new_value):
     value = format_value(value, indent)
     new_value = format_value(new_value, indent)
-    line = format_string(indent, DIFF_ID[diff_type], name, value)
+    flag = ''
+    if diff_type == ADDED:
+        flag = ADDED_FLAG
+    elif diff_type == REMOVED:
+        flag = REMOVED_FLAG
+    elif diff_type == UPDATED:
+        flag = UPDATED_FLAG
+    else:
+        flag = UNMODIFIED_FLAG
+    line = format_string(indent, flag, name, value)
     if diff_type is UPDATED:
-        updated_line = format_string(indent, DIFF_ID[ADDED], name, new_value)
+        updated_line = format_string(indent, ADDED_FLAG, name, new_value)
         line = '\n'.join([line, updated_line])
     return line
 
