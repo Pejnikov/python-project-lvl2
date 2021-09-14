@@ -31,23 +31,15 @@ def get_plain(diffs):
 
 def plain_string(diff_type, name, value, new_value):
     result = ''
-    first_msg_part = "Property '{}' was ".format(name)
-    second_msg_part = make_diff_msg(diff_type, value, new_value)
-    result = "{}{}".format(first_msg_part, second_msg_part)
-    return result
-
-
-def make_diff_msg(diff_type, value, new_value=None):
-    diff_msg = ''
     value = format_value(value)
     new_value = format_value(new_value)
     if diff_type is DIFF_TYPES['ADDED']:
-        diff_msg += "added with value: {}".format(value)
+        result = f"Property '{name}' was added with value: {value}"
     elif diff_type is DIFF_TYPES['REMOVED']:
-        diff_msg += "removed"
+        result = f"Property '{name}' was removed"
     elif diff_type is DIFF_TYPES['UPDATED']:
-        diff_msg += "updated. From {} to {}".format(value, new_value)
-    return diff_msg
+        result = f"Property '{name}' was updated. From {value} to {new_value}"
+    return result
 
 
 def format_value(value):
