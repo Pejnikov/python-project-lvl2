@@ -12,7 +12,7 @@ STRINGS_OF_TYPES = {
 
 def get_plain(diffs):
     def walk(diffs, name):
-        diffs = sorted(diffs, key = get_name)
+        diffs = sorted(diffs, key=get_name)
         result = []
         for diff in diffs:
             diff_type = get_type(diff)
