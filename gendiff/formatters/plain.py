@@ -1,5 +1,6 @@
 from gendiff.difference import get_name, get_value, get_type, get_new_value
-from gendiff.difference import DIFF_TYPES, has_children
+from gendiff.difference import has_children, ADDED, REMOVED, UNMODIFIED
+from gendiff.difference import UPDATED
 
 PATH_DIVIDER = '.'
 STRINGS_OF_TYPES = {
@@ -21,7 +22,7 @@ def get_plain(diffs):
                 children_string = walk(value, cur_name + PATH_DIVIDER)
                 result.append(children_string)
                 continue
-            if diff_type is DIFF_TYPES['UNMODIFIED']:
+            if diff_type is UNMODIFIED:
                 continue
             main_string = plain_string(diff_type, cur_name, value, new_value)
             result.append(main_string)
@@ -33,11 +34,11 @@ def plain_string(diff_type, name, value, new_value):
     result = ''
     value = format_value(value)
     new_value = format_value(new_value)
-    if diff_type is DIFF_TYPES['ADDED']:
+    if diff_type is ADDED:
         result = f"Property '{name}' was added with value: {value}"
-    elif diff_type is DIFF_TYPES['REMOVED']:
+    elif diff_type is REMOVED:
         result = f"Property '{name}' was removed"
-    elif diff_type is DIFF_TYPES['UPDATED']:
+    elif diff_type is UPDATED:
         result = f"Property '{name}' was updated. From {value} to {new_value}"
     return result
 

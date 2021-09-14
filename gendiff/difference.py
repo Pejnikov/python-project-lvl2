@@ -1,10 +1,9 @@
 
-DIFF_TYPES = {
-    'ADDED': 'ADDED',
-    'REMOVED': 'REMOVED',
-    'UNMODIFIED': 'UNMODIFIED',
-    'UPDATED': 'UPDATED',
-}
+
+ADDED = 'ADDED'
+REMOVED = 'REMOVED'
+UNMODIFIED = 'UNMODIFIED'
+UPDATED = 'UPDATED'
 
 
 def get_diff(file1, file2):
@@ -32,22 +31,22 @@ def make_diff(flag, key, value, changed_value=None, nested=False):
 
 
 def make_added(key, value):
-    diff = make_diff(DIFF_TYPES['ADDED'], key, value)
+    diff = make_diff(ADDED, key, value)
     return diff
 
 
 def make_removed(key, value):
-    diff = make_diff(DIFF_TYPES['REMOVED'], key, value)
+    diff = make_diff(REMOVED, key, value)
     return diff
 
 
 def make_unmodified(key, value, nested_flag=False):
-    diff = make_diff(DIFF_TYPES['UNMODIFIED'], key, value, nested=nested_flag)
+    diff = make_diff(UNMODIFIED, key, value, nested=nested_flag)
     return diff
 
 
 def make_updated(key, initial_value, new_value):
-    diff = make_diff(DIFF_TYPES['UPDATED'], key, initial_value, new_value)
+    diff = make_diff('UPDATED', key, initial_value, new_value)
     return diff
 
 

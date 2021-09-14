@@ -1,13 +1,14 @@
-from gendiff.difference import get_name, get_value, get_type, DIFF_TYPES
-from gendiff.difference import has_children, get_new_value
+from gendiff.difference import get_name, get_value, get_type, ADDED, REMOVED
+from gendiff.difference import has_children, get_new_value, UNMODIFIED
+from gendiff.difference import UPDATED
 
 
 INDENT = '    '
 DIFF_ID = {
-    DIFF_TYPES['ADDED']: '+',
-    DIFF_TYPES['REMOVED']: '-',
-    DIFF_TYPES['UNMODIFIED']: ' ',
-    DIFF_TYPES['UPDATED']: '-',
+    ADDED: '+',
+    REMOVED: '-',
+    UNMODIFIED: ' ',
+    UPDATED: '-',
 }
 STRINGS_OF_TYPES = {
     True: 'true',
@@ -36,8 +37,8 @@ def diff_line(indent, diff_type, name, value, new_value):
     value = format_value(value, indent)
     new_value = format_value(new_value, indent)
     line = format_string(indent, DIFF_ID[diff_type], name, value)
-    if diff_type is DIFF_TYPES['UPDATED']:
-        updated_line = format_string(indent, DIFF_ID['ADDED'], name, new_value)
+    if diff_type is UPDATED:
+        updated_line = format_string(indent, DIFF_ID[ADDED], name, new_value)
         line = '\n'.join([line, updated_line])
     return line
 
