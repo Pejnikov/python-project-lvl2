@@ -1,30 +1,28 @@
 import json
 import yaml
-from os.path import abspath, basename
-from fnmatch import fnmatch
+from os.path import abspath, splitext
 
 
 LOADERS = {
-    ('*?.yaml', yaml.load),
-    ('*?.yml', yaml.load),
-    ('*?.json', json.loads),
+    '.yaml': yaml.load,
+    '.yml': yaml.load,
+    '.json': json.loads
 }
 
 
 def get_data(filepath):
-    filename = basename(filepath)
-    load = get_data_loader(filename)
+    extension = splitext(filepath)[1]
+    load = get_data_loader(extension)
     if load:
         data = get_file_data(filepath)
         return load(data)
     raise ValueError
 
 
-def get_data_loader(filename):
-    filename = filename.lower()
-    for (search_pattern, loader) in LOADERS:
-        if fnmatch(filename, search_pattern):
-            return loader
+def get_data_loader(extension):
+    extension = extension.lower()
+    if extension in LOADERS:
+        return LOADERS[extension]
     return None
 
 
