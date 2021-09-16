@@ -2,11 +2,13 @@ from gendiff.formatters.stylish import get_stylish
 from gendiff.formatters.plain import get_plain
 from gendiff.formatters.json import get_json
 
-
+STYLISH = 'stylish'
+PLAIN = 'plain'
+JSON = 'json'
 FORMATTERS = {
-    'stylish': get_stylish,
-    'plain': get_plain,
-    'json': get_json
+    STYLISH: get_stylish,
+    PLAIN: get_plain,
+    JSON: get_json
 }
 
 

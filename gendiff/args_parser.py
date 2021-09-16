@@ -1,5 +1,5 @@
 import argparse
-from gendiff.formatters.formatter import FORMATTERS
+from gendiff.formatters.formatter import FORMATTERS, STYLISH
 
 
 def get_args():
@@ -9,7 +9,7 @@ def get_args():
     parser.add_argument(
         '-f',
         '--format',
-        default='stylish',
+        default=STYLISH,
         choices=list(FORMATTERS),
         help='set format of output')
     return parser.parse_args()
