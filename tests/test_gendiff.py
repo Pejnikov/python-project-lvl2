@@ -64,8 +64,6 @@ import pytest
 def test_diff(file1, file2, expected_output, format):
     with open(abspath(expected_output), 'r') as file:
         data = file.read()
-    print(f'>{generate_diff(file1, file2, format)}<')
-    print(f'\n>{data}<')
     assert generate_diff(file1, file2, format) == data
 
 
