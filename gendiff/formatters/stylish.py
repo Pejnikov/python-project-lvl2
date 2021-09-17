@@ -54,7 +54,7 @@ def diff_line(indent, diff_type, name, value, new_value):
 def format_value(value, intend):
     if isinstance(value, dict):
         value = get_formatted_dict(value, intend + INDENT)
-    elif isinstance(value, bool) or value is None:
+    elif value in STRINGS_OF_TYPES:
         value = STRINGS_OF_TYPES[value]
     return value
 

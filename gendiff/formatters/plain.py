@@ -47,7 +47,7 @@ def plain_string(diff_type, name, value, new_value):
 def format_value(value):
     if isinstance(value, dict):
         return '[complex value]'
-    elif isinstance(value, bool) or value is None:
+    elif value in STRINGS_OF_TYPES:
         return STRINGS_OF_TYPES[value]
     elif isinstance(value, int):
         return value
