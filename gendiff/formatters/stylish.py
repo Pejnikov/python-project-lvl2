@@ -35,19 +35,19 @@ def get_stylish(diffs):
 def diff_line(indent, diff_type, name, value, new_value):
     value = format_value(value, indent)
     new_value = format_value(new_value, indent)
-    flag = ''
+    line = ''
     if diff_type == ADDED:
-        flag = ADDED_FLAG
+        line = format_string(indent, ADDED_FLAG, name, value)
     elif diff_type == REMOVED:
-        flag = REMOVED_FLAG
+        line = format_string(indent, REMOVED_FLAG, name, value)
     elif diff_type == UPDATED:
-        flag = UPDATED_FLAG
+        line = '\n'.join([
+            format_string(indent, REMOVED_FLAG, name, value),
+            format_string(indent, ADDED_FLAG, name, new_value)
+        ]
+        )
     else:
-        flag = UNMODIFIED_FLAG
-    line = format_string(indent, flag, name, value)
-    if diff_type is UPDATED:
-        updated_line = format_string(indent, ADDED_FLAG, name, new_value)
-        line = '\n'.join([line, updated_line])
+        line = format_string(indent, UNMODIFIED_FLAG, name, value)
     return line
 
 
