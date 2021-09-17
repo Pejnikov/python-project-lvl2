@@ -9,9 +9,9 @@ REMOVED_FLAG = '-'
 UNMODIFIED_FLAG = ' '
 UPDATED_FLAG = '-'
 STRINGS_OF_TYPES = {
-    True: 'true',
-    False: 'false',
-    None: 'null'
+    'True': 'true',
+    'False': 'false',
+    'None': 'null'
 }
 
 
@@ -54,8 +54,8 @@ def diff_line(indent, diff_type, name, value, new_value):
 def format_value(value, intend):
     if isinstance(value, dict):
         value = get_formatted_dict(value, intend + INDENT)
-    elif value in STRINGS_OF_TYPES:
-        value = STRINGS_OF_TYPES[value]
+    elif str(value) in STRINGS_OF_TYPES:
+        value = STRINGS_OF_TYPES[str(value)]
     return value
 
 
