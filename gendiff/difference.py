@@ -7,23 +7,23 @@ UPDATED = 'UPDATED'
 NESTED = 'NESTED'
 
 
-def get_diff(file1, file2):
-    not_in_file1 = set(file2) - set(file1)
-    not_in_file2 = set(file1) - set(file2)
-    intersection = set(file1) & set(file2)
+def get_diff(dict1, dict2):
+    added_keys = set(dict2) - set(dict1)
+    removed_keys = set(dict1) - set(dict2)
+    common_keys = set(dict1) & set(dict2)
     diffs = []
-    for key in not_in_file1:
-        diffs.append(make_added(key, file2[key]))
-    for key in not_in_file2:
-        diffs.append(make_removed(key, file1[key]))
-    for key in intersection:
-        if file1[key] == file2[key]:
-            diffs.append(make_unmodified(key, file1[key]))
-        elif isinstance(file1[key], dict) and isinstance(file2[key], dict):
-            nested_diff = get_diff(file1[key], file2[key])
+    for key in added_keys:
+        diffs.append(make_added(key, dict2[key]))
+    for key in removed_keys:
+        diffs.append(make_removed(key, dict1[key]))
+    for key in common_keys:
+        if dict1[key] == dict2[key]:
+            diffs.append(make_unmodified(key, dict1[key]))
+        elif isinstance(dict1[key], dict) and isinstance(dict2[key], dict):
+            nested_diff = get_diff(dict1[key], dict2[key])
             diffs.append(make_nested(key, nested_diff))
         else:
-            diffs.append(make_updated(key, file1[key], file2[key]))
+            diffs.append(make_updated(key, dict1[key], dict2[key]))
     return diffs
 
 

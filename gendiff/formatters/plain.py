@@ -25,13 +25,13 @@ def get_plain(diffs):
                 continue
             if diff_type is UNMODIFIED:
                 continue
-            main_string = plain_string(diff_type, cur_name, value, new_value)
-            result.append(main_string)
+            main_line = plain_line(diff_type, cur_name, value, new_value)
+            result.append(main_line)
         return '\n'.join(result)
     return walk(diffs, name='')
 
 
-def plain_string(diff_type, name, value, new_value):
+def plain_line(diff_type, name, value, new_value):
     result = ''
     value = format_value(value)
     new_value = format_value(new_value)
