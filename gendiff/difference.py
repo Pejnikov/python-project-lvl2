@@ -4,6 +4,7 @@ ADDED = 'ADDED'
 REMOVED = 'REMOVED'
 UNMODIFIED = 'UNMODIFIED'
 UPDATED = 'UPDATED'
+NESTED = 'NESTED'
 
 
 def get_diff(file1, file2):
@@ -20,7 +21,7 @@ def get_diff(file1, file2):
             diffs.append(make_unmodified(key, file1[key]))
         elif isinstance(file1[key], dict) and isinstance(file2[key], dict):
             nested_diff = get_diff(file1[key], file2[key])
-            diffs.append(make_unmodified(key, nested_diff))
+            diffs.append(make_nested(key, nested_diff))
         else:
             diffs.append(make_updated(key, file1[key], file2[key]))
     return diffs
@@ -46,7 +47,12 @@ def make_unmodified(key, value):
 
 
 def make_updated(key, initial_value, new_value):
-    diff = make_diff('UPDATED', key, initial_value, new_value)
+    diff = make_diff(UPDATED, key, initial_value, new_value)
+    return diff
+
+
+def make_nested(key, value):
+    diff = make_diff(NESTED, key, value)
     return diff
 
 
@@ -67,8 +73,6 @@ def get_new_value(diff):
 
 
 def has_children(diff):
-    if diff[0] is UNMODIFIED:
-        if isinstance(diff[2], list):
-            if isinstance(diff[2][0], tuple):
-                return True
+    if diff[0] is NESTED:
+        return True
     return False
