@@ -1,7 +1,7 @@
 from gendiff.difference import get_name, get_value, get_type, get_new_value
 from gendiff.difference import has_children, ADDED, REMOVED, UNMODIFIED
-from gendiff.difference import UPDATED
-from typing import Tuple, List, Any
+from gendiff.difference import UPDATED, Diff
+from typing import List, Any
 
 PATH_DIVIDER = '.'
 STRINGS_OF_TYPES = {
@@ -11,7 +11,7 @@ STRINGS_OF_TYPES = {
 }
 
 
-def get_plain(diffs: List[Tuple[str, str, Any, Any]]) -> str:
+def get_plain(diffs: List[Diff]) -> str:
     def walk(diffs, name):
         diffs = sorted(diffs, key=get_name)
         result = []

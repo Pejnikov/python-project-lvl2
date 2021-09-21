@@ -1,6 +1,7 @@
 from typing import Any, List, Tuple
 
 
+Diff = Tuple[str, str, Any, Any]
 ADDED = 'ADDED'
 REMOVED = 'REMOVED'
 UNMODIFIED = 'UNMODIFIED'
@@ -8,7 +9,7 @@ UPDATED = 'UPDATED'
 NESTED = 'NESTED'
 
 
-def get_diff(dict1: dict, dict2: dict) -> List[Tuple[str, str, Any, Any]]:
+def get_diff(dict1: dict, dict2: dict) -> List[Diff]:
     added_keys = set(dict2) - set(dict1)
     removed_keys = set(dict1) - set(dict2)
     common_keys = set(dict1) & set(dict2)
@@ -28,40 +29,31 @@ def get_diff(dict1: dict, dict2: dict) -> List[Tuple[str, str, Any, Any]]:
     return diffs
 
 
-def make_diff(
-    flag: str,
-    key: str,
-    value: Any,
-    changed_value=None
-) -> Tuple[str, str, Any, Any]:
+def make_diff(flag: str, key: str, value: Any, changed_value=None) -> Diff:
     return (flag, key, value, changed_value)
 
 
-def make_added(key: str, value: Any) -> Tuple[str, str, Any, Any]:
+def make_added(key: str, value: Any) -> Diff:
     diff = make_diff(ADDED, key, value)
     return diff
 
 
-def make_removed(key: str, value: Any) -> Tuple[str, str, Any, Any]:
+def make_removed(key: str, value: Any) -> Diff:
     diff = make_diff(REMOVED, key, value)
     return diff
 
 
-def make_unmodified(key: str, value: Any) -> Tuple[str, str, Any, Any]:
+def make_unmodified(key: str, value: Any) -> Diff:
     diff = make_diff(UNMODIFIED, key, value)
     return diff
 
 
-def make_updated(
-    key: str,
-    initial_value: Any,
-    new_value: Any
-) -> Tuple[str, str, Any, Any]:
+def make_updated(key: str, initial_value: Any, new_value: Any) -> Diff:
     diff = make_diff(UPDATED, key, initial_value, new_value)
     return diff
 
 
-def make_nested(key: str, value: Any) -> Tuple[str, str, Any, Any]:
+def make_nested(key: str, value: Any) -> Diff:
     diff = make_diff(NESTED, key, value)
     return diff
 

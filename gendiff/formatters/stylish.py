@@ -1,7 +1,7 @@
 from gendiff.difference import get_name, get_value, get_type
 from gendiff.difference import has_children, get_new_value
-from gendiff.difference import UPDATED, ADDED, REMOVED
-from typing import Dict, List, Tuple, Any
+from gendiff.difference import UPDATED, ADDED, REMOVED, Diff
+from typing import Dict, List, Any
 
 
 INDENT = '    '
@@ -16,7 +16,7 @@ STRINGS_OF_TYPES = {
 }
 
 
-def get_stylish(diffs: List[Tuple[str, str, Any, Any]]) -> str:
+def get_stylish(diffs: List[Diff]) -> str:
     def walk(diffs, cur_indent=''):
         diffs = sorted(diffs, key=get_name)
         result = []
