@@ -1,6 +1,7 @@
 from gendiff.difference import get_name, get_value, get_type
 from gendiff.difference import has_children, get_new_value
 from gendiff.difference import UPDATED, ADDED, REMOVED
+from typing import Dict, List, Tuple, Any
 
 
 INDENT = '    '
@@ -15,7 +16,7 @@ STRINGS_OF_TYPES = {
 }
 
 
-def get_stylish(diffs):
+def get_stylish(diffs: List[Tuple[str, str, Any, Any]]) -> str:
     def walk(diffs, cur_indent=''):
         diffs = sorted(diffs, key=get_name)
         result = []
@@ -32,7 +33,13 @@ def get_stylish(diffs):
     return walk(diffs)
 
 
-def style_diff(indent, diff_type, name, value, new_value):
+def style_diff(
+    indent: str,
+    diff_type: str,
+    name: str,
+    value: Any,
+    new_value: Any
+) -> str:
     value = style_value(value, indent)
     new_value = style_value(new_value, indent)
     line = ''
@@ -51,7 +58,7 @@ def style_diff(indent, diff_type, name, value, new_value):
     return line
 
 
-def style_value(value, intend):
+def style_value(value: Any, intend: str) -> str:
     if isinstance(value, dict):
         value = get_styled_dict(value, intend + INDENT)
     elif str(value) in STRINGS_OF_TYPES:
@@ -59,11 +66,11 @@ def style_value(value, intend):
     return value
 
 
-def get_styled_line(indent, flag, key, value):
+def get_styled_line(indent: str, flag: str, key: str, value: Any) -> str:
     return '{}  {} {}: {}'.format(indent, flag, key, value)
 
 
-def get_styled_dict(items, indent):
+def get_styled_dict(items: Dict, indent: str) -> str:
     sorted_items = sorted(items.items())
     result = []
     for (key, value) in sorted_items:
@@ -74,6 +81,6 @@ def get_styled_dict(items, indent):
     return result_string
 
 
-def make_result_string(result, indent):
+def make_result_string(result: str, indent: str) -> str:
     result_string = '{{\n{}\n{}}}'.format(result, indent)
     return result_string

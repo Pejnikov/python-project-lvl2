@@ -1,6 +1,7 @@
 from gendiff.difference import get_name, get_value, get_type, get_new_value
 from gendiff.difference import has_children, ADDED, REMOVED, UNMODIFIED
 from gendiff.difference import UPDATED
+from typing import Tuple, List, Any
 
 PATH_DIVIDER = '.'
 STRINGS_OF_TYPES = {
@@ -10,7 +11,7 @@ STRINGS_OF_TYPES = {
 }
 
 
-def get_plain(diffs):
+def get_plain(diffs: List[Tuple[str, str, Any, Any]]) -> str:
     def walk(diffs, name):
         diffs = sorted(diffs, key=get_name)
         result = []
@@ -31,7 +32,7 @@ def get_plain(diffs):
     return walk(diffs, name='')
 
 
-def plain_line(diff_type, name, value, new_value):
+def plain_line(diff_type: str, name: str, value: Any, new_value: Any) -> str:
     result = ''
     value = format_value(value)
     new_value = format_value(new_value)
@@ -44,7 +45,7 @@ def plain_line(diff_type, name, value, new_value):
     return result
 
 
-def format_value(value):
+def format_value(value: Any) -> Any:
     if isinstance(value, (dict, list)):
         return '[complex value]'
     elif isinstance(value, str):
