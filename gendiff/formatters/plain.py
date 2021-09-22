@@ -4,11 +4,6 @@ from gendiff.difference import UPDATED, Diff
 from typing import List, Any
 
 PATH_DIVIDER = '.'
-STRINGS_OF_TYPES = {
-    'True': 'true',
-    'False': 'false',
-    'None': 'null'
-}
 
 
 def get_plain(diffs: List[Diff]) -> str:
@@ -50,7 +45,11 @@ def format_value(value: Any) -> Any:
         return '[complex value]'
     elif isinstance(value, str):
         return "'{}'".format(value)
-    elif str(value) in STRINGS_OF_TYPES:
-        return STRINGS_OF_TYPES[str(value)]
+    elif value is None:
+        return 'null'
+    elif value is True:
+        return 'true'
+    elif value is False:
+        return 'false'
     else:
         return value

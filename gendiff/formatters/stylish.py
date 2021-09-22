@@ -9,11 +9,6 @@ ADDED_FLAG = '+'
 REMOVED_FLAG = '-'
 UNMODIFIED_FLAG = ' '
 UPDATED_FLAG = '-'
-STRINGS_OF_TYPES = {
-    'True': 'true',
-    'False': 'false',
-    'None': 'null'
-}
 
 
 def get_stylish(diffs: List[Diff]) -> str:
@@ -61,8 +56,12 @@ def style_diff(
 def style_value(value: Any, intend: str) -> str:
     if isinstance(value, dict):
         value = get_styled_dict(value, intend + INDENT)
-    elif str(value) in STRINGS_OF_TYPES:
-        value = STRINGS_OF_TYPES[str(value)]
+    elif value is None:
+        return 'null'
+    elif value is True:
+        return 'true'
+    elif value is False:
+        return 'false'
     return value
 
 
